@@ -1,7 +1,9 @@
 class Ship
-  attr_reader :location
+  attr_reader :location, :type
 
-  def initialize(location)
+  def initialize(type, location)
     @location = location
+    @type = type
   end
+
 end
