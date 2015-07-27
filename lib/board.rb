@@ -11,4 +11,12 @@ class Board
 	def place_ship(ship)
 		ships << ship
 	end
+
+	def fire(position)
+		if ships.any?{ |ship| ship.location == position }
+			return "HIT!"
+		else
+			fail "Miss!"
+		end
+	end
 end
