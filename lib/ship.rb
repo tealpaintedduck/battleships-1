@@ -1,9 +1,7 @@
 class Ship
   attr_reader :location
-  attr_reader :board
 
-  def initialize(location, board)
+  def initialize(location)
     @location = location
-    @board = board
   end
 end
