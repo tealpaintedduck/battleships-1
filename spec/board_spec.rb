@@ -2,8 +2,8 @@ require 'board'
 
 describe Board do
 
-	let(:ship){ double :ship }
-	let(:ship_with_location){ double :ship, location: "A1" }
+  let(:ship){ double :ship }
+  let(:ship_with_location){ double :ship, location: "A1" }
 
 	it 'has place_ship method' do
 		expect(subject).to respond_to :place_ship
