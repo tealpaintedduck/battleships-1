@@ -1,10 +1,11 @@
 class Ship
-  attr_reader :location, :type
+  attr_reader :location, :type, :size
 
   def initialize(type, location)
     fail 'Incorrect ship type' unless valid_ship_type?(type)
     @location = location
     @type = type
+    @size = ship_types[type]
   end
 
   def ship_types

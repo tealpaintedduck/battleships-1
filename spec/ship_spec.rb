@@ -16,6 +16,10 @@ describe Ship do
     expect(@ship.type).to be_a Symbol
   end
 
+  it 'has a size' do 
+    expect(@ship.size).to be_a Integer
+  end
+
   it 'type must match one of the ship types' do
     expect { Ship.new('incorrect_type', 'A1') }.to raise_error 'Incorrect ship type'
   end
