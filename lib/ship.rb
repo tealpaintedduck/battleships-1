@@ -1,9 +1,11 @@
 class Ship
-  attr_reader :location, :type, :size
+  attr_reader :location, :type, :size, :direction
 
-  def initialize(type, location)
+  def initialize(type, location, direction)
     fail 'Incorrect ship type' unless valid_ship_type?(type)
+    fail 'Direction must be :N, :S, :E or :W' unless valid_direction?(direction)
     @location = location
+    @direction = direction
     @type = type
     @size = ship_types[type]
   end
@@ -14,6 +16,10 @@ class Ship
 
   def valid_ship_type?(type)
   	ship_types.has_key?(type)
+  end
+
+  def valid_direction?(direction)
+  	[:N, :S, :E, :W].include? direction
   end
 
 end
