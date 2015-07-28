@@ -13,46 +13,31 @@ class Grid
   def coordinate_converter(coordinate)
 
     alphabet = ("A".."Z").to_a
-    alphabet_numbers = (0..25).to_a
     letter_numbers = {}
-    alphabet.each_with_index do |value, index|
-      letter_numbers[value] = alphabet_numbers[index]
-    end
+    alphabet.each_with_index {|item, index| letter_numbers[item] = index}
 
     coord_arr = coordinate.to_s.split('')
     x_letter = coord_arr[0]
     y_number = coord_arr[1]
 
-    @x = letter_numbers[x_letter.upcase]
-    @y = (y_number.to_i - 1)
+    @y = letter_numbers[x_letter.upcase]
+    @x = (y_number.to_i - 1)
 
     conversion = [[@x][@y]]
   end
 
-  def insert_ship(ship, coordinate)
+  def insert_ship(ship, length, coordinate, orientation)
     coordinate_converter(coordinate)
-    matrix[@x][@y] = ship
+
+    if length == 2 && orientation == :H
+      matrix[@x][@y] = ship
+      matrix[@x+1][@y] = ship
+    end
+
+    if length == 2 && orientation == :V
+      matrix[@x][@y] = ship
+      matrix[@x][@y+1] = ship
+    end
   end
 
 end
-
-#
-#
-# alphabet.zip(alphabet_numbers).
-# p a
-#
-#
-# @sample_array = ["one", "Two", "Three"]
-# alphabet = ("a".."z").to_a
-#
-# @timesheet_id_array = ["96", "97", "98"]
-# alphabet_numbers = (1..26).to_a
-#
-# I want to output the results into a hash called @hash_array. Is there a simple way to combine the two in a code block so that if you call puts at the end it looks like this in the console
-
-
-#
-# @hash_array = {}
-# @sample_array.each_with_index do |value, index|
-#   @hash_array[value] = @timesheet_id_array[index]
-# end
