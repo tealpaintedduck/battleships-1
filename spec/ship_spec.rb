@@ -1,9 +1,6 @@
 require 'ship'
 
 describe Ship do
-
-	# let (:board){ double :board }
-
   before(:each) do
     @ship = Ship.new(:battleship, 'location', :N)
   end
@@ -16,17 +13,17 @@ describe Ship do
     expect(@ship.type).to be_a Symbol
   end
 
-  it 'has a size' do 
+  it 'has a size' do
     expect(@ship.size).to be_a Integer
   end
 
-  it 'has a direction' do 
+  it 'has a direction' do
     expect(@ship.direction).to be_truthy
   end
 
-  describe "#valid_direction?" do 
-    it 'fails if direction is not valid' do 
-      expect{Ship.new(:battleship, 'A1', :invalid_direction)}.to raise_error "Direction must be :N, :S, :E or :W"
+  describe '#valid_direction?' do
+    it 'fails if direction is not valid' do
+      expect { Ship.new(:battleship, 'A1', :invalid_direction) }.to raise_error 'Direction must be :N, :S, :E or :W'
     end
   end
 

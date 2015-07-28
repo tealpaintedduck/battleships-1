@@ -11,15 +11,14 @@ class Ship
   end
 
   def ship_types
-    {patrol_boat: 2, destroyer: 3, submarine: 3, battleship: 4, aircraft_carrier: 5}
+    { patrol_boat: 2, destroyer: 3, submarine: 3, battleship: 4, aircraft_carrier: 5 }
   end
 
   def valid_ship_type?(type)
-  	ship_types.has_key?(type)
+    ship_types.key?(type)
   end
 
   def valid_direction?(direction)
-  	[:N, :S, :E, :W].include? direction
+    [:N, :S, :E, :W].include? direction
   end
-
 end
