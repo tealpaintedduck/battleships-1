@@ -24,4 +24,8 @@ class Ship
   def gets_got
     @hp -= 1
   end
+
+  def has_sunk?
+    @hp == 0
+  end
 end

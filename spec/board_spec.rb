@@ -1,8 +1,9 @@
 require 'board'
 
 describe Board do
-  let(:horizontal_ship) { double :ship, size: 4, direction: :H, gets_got: nil }
-  let(:vertical_ship) { double :ship, size: 4, direction: :V, gets_got: nil }
+  let(:horizontal_ship) { double :ship, size: 4, direction: :H, gets_got: nil, has_sunk?: nil }
+  let(:vertical_ship) { double :ship, size: 4, direction: :V, gets_got: nil, has_sunk?: nil }
+  let(:small_ship) { double :ship, size: 2, direction: :H, gets_got: nil, has_sunk?: nil }
 
   it 'has place_ship method' do
     expect(subject).to respond_to :place_ship
@@ -70,6 +71,21 @@ describe Board do
     it "should only be able to hit cell once" do
       subject.fire("A1")
       expect(subject.fire("A1")).to eq "Location already targeted."
+    end
+
+    xit "should announce ship sinkings" do
+      ship = double :ship, size: 2, direction: :H, gets_got: nil
+      subject.place_ship(small_ship, "A1")
+      subject.fire("A1")
+      allow(ship).to receive(:has_sunk){true}
+      expect(subject.fire("A2")).to eq "You sunk my battleship!"
+    end
+
+    xit "should remove sunk ships from board" do
+      subject.place_ship(small_ship, "A1")
+      subject.fire("A1")
+      subject.fire("A2")
+      expect(subject.ships.include?(small_ship)).to be false
     end
 
   end

@@ -19,6 +19,10 @@ class Board
       hit_ship = ships.select { |k,v| v.include? position }
       hit_ship.keys[0].gets_got
       @recorded_shots.merge!(position => "H")
+      if hit_ship.keys[0].has_sunk?
+        ships.delete(hit_ship.keys[0])
+        return "You sunk my battleship!"
+      end
       return 'HIT!'
     else
       @recorded_shots.merge!(position => "M")
