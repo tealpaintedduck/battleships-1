@@ -13,8 +13,12 @@ describe Board do
       expect(subject).to respond_to(:place_ship).with(2).argument
     end
 
-    it 'doesn\'t let you place off board' do
+    xit 'doesn\'t let you place off board' do
     expect { subject.place_ship(horizontal_ship, 'Z23') }.to raise_error "Invalid placement - Not on board"
+    end
+
+    it 'doesn\'t let physical location go off board' do
+      expect { subject.place_ship(horizontal_ship, 'A10') }.to raise_error 'Location not on board'
     end
 
     it 'places a ship on the board' do
