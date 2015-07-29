@@ -14,6 +14,7 @@ class Board
   end
 
   def fire(position)
+    return "Location already targeted." if recorded_shots.keys.include? position
     if ships.values.flatten.any? { |location| location == position }
       hit_ship = ships.select { |k,v| v.include? position }
       hit_ship.keys[0].gets_got

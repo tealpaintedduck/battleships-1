@@ -67,5 +67,10 @@ describe Board do
       expect(subject.recorded_shots).to include "A1" => "M"
     end
 
+    it "should only be able to hit cell once" do
+      subject.fire("A1")
+      expect(subject.fire("A1")).to eq "Location already targeted."
+    end
+
   end
 end
