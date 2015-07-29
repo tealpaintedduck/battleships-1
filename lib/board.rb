@@ -9,11 +9,12 @@ class Board
 
   def place_ship(ship, starting_location)
     valid_placement?(starting_location)
-    ships.merge!(ship => starting_location)
+    calculate_ship_location(ship, starting_location)
+    #ships.merge!(ship => starting_location)
   end
 
   def fire(position)
-    if ships.values.any? { |location| location == position }
+    if ships.values.flatten.any? { |location| location == position }
       return 'HIT!'
     else
       fail 'Miss!'
@@ -29,6 +30,19 @@ class Board
     else
       fail 'Invalid placement - Not on board'
     end
+  end
+
+  def calculate_ship_location(ship, starting_location)
+    placement_array = [starting_location]
+    location_array = starting_location.scan(/\d+|\D+/)
+    letter = location_array[0]
+    number = location_array[1].to_i
+    (ship.size - 1).times do
+      number += 1
+      placement_array << "#{letter}#{number}"
+    end
+    ships.merge!(ship => placement_array)
+
   end
 
 end

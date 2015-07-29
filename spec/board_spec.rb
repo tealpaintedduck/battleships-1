@@ -1,8 +1,7 @@
 require 'board'
 
 describe Board do
-  let(:ship) { double :ship }
-  let(:ship_with_location) { double :ship, starting_location: 'A1', direction: :H }
+  let(:ship) { double :ship, size: 4, direction: :H }
 
   it 'has place_ship method' do
     expect(subject).to respond_to :place_ship
@@ -22,14 +21,9 @@ describe Board do
       expect(subject.ships.keys.include?(ship)).to be true
     end
 
-    it 'knows a ships physcial location' do
+    it 'should generate cell locations from start point' do
       subject.place_ship(ship, 'A1')
-      expect(subject.ships.values.include?('A1')).to be true
-    end
-
-    xit 'should generate cell locations from start point' do
-      suject.place_ship(ship_with_location, 'A1')
-      expect
+      expect(subject.ships.values.include?(['A1','A2','A3','A4'])).to be true
     end
   end
 
@@ -43,12 +37,12 @@ describe Board do
     end
 
     it "fails if a ship doesn't exist at that location" do
-      subject.place_ship(ship_with_location, 'A1')
-      expect { subject.fire('A2') }.to raise_error 'Miss!'
+      subject.place_ship(ship, 'A1')
+      expect { subject.fire('B2') }.to raise_error 'Miss!'
     end
 
     it "returns 'HIT!' if a ship does exist at that location" do
-      subject.place_ship(ship_with_location, 'A1')
+      subject.place_ship(ship, 'A1')
       expect(subject.fire('A1')).to eq 'HIT!'
     end
   end
