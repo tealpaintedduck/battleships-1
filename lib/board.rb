@@ -10,7 +10,6 @@ class Board
   def place_ship(ship, starting_location)
     valid_placement?(starting_location)
     calculate_ship_location(ship, starting_location)
-    #ships.merge!(ship => starting_location)
   end
 
   def fire(position)
@@ -38,11 +37,10 @@ class Board
     letter = location_array[0]
     number = location_array[1].to_i
     (ship.size - 1).times do
-      number += 1
+      ship.direction == :H ? number += 1 : letter = letter.next
       placement_array << "#{letter}#{number}"
     end
     ships.merge!(ship => placement_array)
-
   end
 
 end
