@@ -1,10 +1,11 @@
 require_relative './ship.rb'
 
 class Board
-  attr_reader :ships
+  attr_reader :ships, :recorded_shots
 
   def initialize
     @ships = {}
+    @recorded_shots = {}
   end
 
   def place_ship(ship, starting_location)
@@ -16,9 +17,11 @@ class Board
     if ships.values.flatten.any? { |location| location == position }
       hit_ship = ships.select { |k,v| v.include? position }
       hit_ship.keys[0].gets_got
+      @recorded_shots.merge!(position => "H")
       return 'HIT!'
     else
-      fail 'Miss!'
+      @recorded_shots.merge!(position => "M")
+      return 'Miss!'
     end
   end
 

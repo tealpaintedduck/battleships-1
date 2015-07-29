@@ -1,5 +1,5 @@
 class Ship
-  attr_reader :starting_location, :type, :size, :direction
+  attr_reader :starting_location, :type, :size, :direction, :hp
 
   def initialize(type, direction)
     fail 'Incorrect ship type' unless valid_ship_type?(type)
@@ -23,9 +23,5 @@ class Ship
 
   def gets_got
     @hp -= 1
-    if @hp == 0
-      "You sunk my battleship"
-    end
-    @hp
   end
 end

@@ -1,8 +1,8 @@
 require 'board'
 
 describe Board do
-  let(:horizontal_ship) { double :ship, size: 4, direction: :H }
-  let(:vertical_ship) { double :ship, size: 4, direction: :V }
+  let(:horizontal_ship) { double :ship, size: 4, direction: :H, gets_got: nil }
+  let(:vertical_ship) { double :ship, size: 4, direction: :V, gets_got: nil }
 
   it 'has place_ship method' do
     expect(subject).to respond_to :place_ship
@@ -46,9 +46,9 @@ describe Board do
       expect(subject).to respond_to(:fire).with(1).argument
     end
 
-    it "fails if a ship doesn't exist at that location" do
+    it "returns 'Miss!' if a ship doesn't exist at that location" do
       subject.place_ship(horizontal_ship, 'A1')
-      expect { subject.fire('B2') }.to raise_error 'Miss!'
+      expect(subject.fire('B2')).to eq 'Miss!'
     end
 
     it "returns 'HIT!' if a ship does exist at that location" do
@@ -56,10 +56,15 @@ describe Board do
       expect(subject.fire('A1')).to eq 'HIT!'
     end
 
-    it "records a hit" do
-      subject.place_ship(horizontal_ship, 'A1')
-      subject.fire('A1')
-      expect(subject.ships[horizontal_ship].include?(['H','A2','A3','A4'])).to be true
+    it "should record hits" do
+      subject.place_ship(horizontal_ship, "A1")
+      subject.fire("A1")
+      expect(subject.recorded_shots).to include "A1" => "H"
+    end
+
+    it "should record misses" do
+      subject.fire("A1")
+      expect(subject.recorded_shots).to include "A1" => "M"
     end
 
   end

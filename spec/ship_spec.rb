@@ -36,4 +36,10 @@ describe Ship do
       expect(@ship.ship_types).to be_a Hash
     end
   end
+
+  it "loses hp when fired at" do
+    start_hp = @ship.hp
+    @ship.gets_got
+    expect(@ship.hp).to eq(start_hp - 1)
+  end
 end
