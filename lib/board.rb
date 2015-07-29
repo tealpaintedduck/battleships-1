@@ -14,6 +14,8 @@ class Board
 
   def fire(position)
     if ships.values.flatten.any? { |location| location == position }
+      hit_ship = ships.select { |k,v| v.include? position }
+      hit_ship.keys[0].gets_got
       return 'HIT!'
     else
       fail 'Miss!'

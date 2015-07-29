@@ -55,5 +55,12 @@ describe Board do
       subject.place_ship(horizontal_ship, 'A1')
       expect(subject.fire('A1')).to eq 'HIT!'
     end
+
+    it "records a hit" do
+      subject.place_ship(horizontal_ship, 'A1')
+      subject.fire('A1')
+      expect(subject.ships[horizontal_ship].include?(['H','A2','A3','A4'])).to be true
+    end
+
   end
 end

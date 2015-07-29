@@ -6,6 +6,7 @@ class Ship
     fail 'Direction must be :H, :V' unless valid_direction?(direction)
     @direction = direction
     @size = ship_types[type]
+    @hp = size
   end
 
   def ship_types
@@ -18,5 +19,13 @@ class Ship
 
   def valid_direction?(direction)
     [:H, :V].include? direction
+  end
+
+  def gets_got
+    @hp -= 1
+    if @hp == 0
+      "You sunk my battleship"
+    end
+    @hp
   end
 end
