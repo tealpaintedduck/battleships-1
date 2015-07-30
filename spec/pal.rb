@@ -1,24 +1,23 @@
-# def pal string
-#   puts string
-#  # str = string.downcase
-#   str = string.gsub(" .,!;:","")
-#   exit if str[0] != str[-1]
-#   str = str[1..-2]
-#   pal str
-#   true
+# def pal? str
+#   str = str.downcase.gsub(/\W+/,"")
+#   if str.length == 1 || (str.length == 2 && str[0] == str [1])
+#     puts 'Pal!'
+#   elsif str[0] == str[-1]
+#     pal? str[1..-2]
+#   else
+#     puts "No pal."
+#   end
 # end
 
-
-
-
-def pal string
-  puts string
-  string.downcase!
-  string = string.gsub!(/\W+/,"")
-  puts string
-  exit if string.length < 2 || string[0] != string[1..-1]
-  string = string[1..-2]
-  pal string
+def pal? str
+  str = str.downcase.gsub(/\W+/,"")
+  if str.length == 1 || (str.length == 2 && str[0] == str [1])
+    true
+  elsif str[0] == str[-1]
+    pal? str[1..-2]
+  else
+    false
+  end
 end
 
-puts pal "Afjdilskjfa"
+puts pal? "245423"

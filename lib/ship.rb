@@ -21,7 +21,7 @@ class Ship
     [:H, :V].include? direction
   end
 
-  def gets_got
+  def gets_hit
     @hp -= 1
   end
 

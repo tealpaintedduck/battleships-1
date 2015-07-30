@@ -1,9 +1,9 @@
 require 'board'
 
 describe Board do
-  let(:horizontal_ship) { double :ship, size: 4, direction: :H, gets_got: nil, has_sunk?: nil }
-  let(:vertical_ship) { double :ship, size: 4, direction: :V, gets_got: nil, has_sunk?: nil }
-  let(:small_ship) { double :ship, size: 2, direction: :H, gets_got: nil, has_sunk?: nil }
+  let(:horizontal_ship) { double :ship, size: 4, direction: :H, gets_hit: nil, has_sunk?: nil, hp: 0 }
+  let(:vertical_ship) { double :ship, size: 4, direction: :V, gets_hit: nil, has_sunk?: nil }
+  let(:small_ship) { double :ship, size: 2, direction: :H, gets_hit: nil, has_sunk?: nil, hp: nil }
 
   it 'has place_ship method' do
     expect(subject).to respond_to :place_ship
@@ -56,6 +56,7 @@ describe Board do
       subject.place_ship(horizontal_ship, 'A1')
       expect(subject.fire('A1')).to eq 'HIT!'
     end
+  end
 
     it "should record hits" do
       subject.place_ship(horizontal_ship, "A1")
@@ -88,5 +89,4 @@ describe Board do
       expect(subject.ships.include?(small_ship)).to be false
     end
 
-  end
 end

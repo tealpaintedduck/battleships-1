@@ -39,7 +39,7 @@ describe Ship do
 
   it "loses hp when fired at" do
     start_hp = @ship.hp
-    @ship.gets_got
+    @ship.gets_hit
     expect(@ship.hp).to eq(start_hp - 1)
   end
 end

@@ -9,53 +9,64 @@ class Board
   end
 
   def place_ship(ship, starting_location)
-    # valid_placement?(starting_location)
-    calculate_ship_location(ship, starting_location)
+    location_on_board?(calculate_ship_location(ship, starting_location))
+    ships.merge!(ship => (calculate_ship_location(ship, starting_location)))
   end
 
   def fire(position)
     return "Location already targeted." if recorded_shots.keys.include? position
-    if ships.values.flatten.any? { |location| location == position }
-      hit_ship = ships.select { |k,v| v.include? position }
-      hit_ship.keys[0].gets_got
-      @recorded_shots.merge!(position => "H")
-      if hit_ship.keys[0].has_sunk?
-        ships.delete(hit_ship.keys[0])
-        return "You sunk my battleship!"
-      end
-      return 'HIT!'
-    else
-      @recorded_shots.merge!(position => "M")
-      return 'Miss!'
-    end
+    target_has_ship?(position) ? ship_is_hit(position) : ship_is_missed(position)
   end
 
-  # def valid_placement?(starting_location)
-  #   location_array = starting_location.scan(/\d+|\D+/)
-  #   x = location_array[0]
-  #   y = location_array[1].to_i
-  #   if x <= "J" && y <= 10
-  #     true
-  #   else
-  #     fail 'Invalid placement - Not on board'
-  #   end
-  # end
+  def target_has_ship?(position)
+    ships.values.flatten.any? { |location| location == position }
+  end
+
+  def ship_is_hit(position)
+    hit_ship = find_ship(position)
+    hit_ship.gets_hit
+    @recorded_shots.merge!(position => "H")
+    ship_sinks(hit_ship) if ship_has_sunk?(hit_ship)
+    return 'HIT!'
+  end
+
+  def ship_is_missed(position)
+    @recorded_shots.merge!(position => "M")
+    return 'Miss!'
+  end
+
+  def find_ship(position)
+    ships.select { |k,v| v.include? position }.keys[0]
+  end
+
+  def ship_has_sunk?(ship)
+    ship.hp < 1
+  end
+
+  def ship_sinks(ship)
+    ships.delete(ship)
+    return "You've sunk my battleship!"
+  end
 
   def calculate_ship_location(ship, starting_location)
     placement_array = [starting_location]
-    location_array = starting_location.scan(/\d+|\D+/)
-    letter = location_array[0]
-    number = location_array[1].to_i
     (ship.size - 1).times do
-      ship.direction == :H ? number += 1 : letter = letter.next
-      placement_array << "#{letter}#{number}"
+      placement_array << get_next_coord(ship.direction, placement_array.last)
     end
-    placement_array.each do |coord|
-      if coord[0] > 'J' || coord[1..-1].to_i > 10 || coord[1..-1].to_i < 1
-        fail 'Location not on board'
-      end
-    end
-    ships.merge!(ship => placement_array)
+    placement_array
   end
 
+  def get_next_coord(direction,coord)
+    location_array = coord.scan(/\d+|\D+/)
+    letter = location_array[0]
+    number = location_array[1].to_i
+    direction == :H ? number += 1 : letter = letter.next
+    "#{letter}#{number}"
+  end
+
+  def location_on_board?(placement_location)
+    placement_location.each do |coord|
+      fail 'Location not on board' if coord[0] > 'J' || coord[1..-1].to_i > 10 || coord[1..-1].to_i < 1
+    end
+  end
 end
