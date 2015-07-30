@@ -10,7 +10,34 @@ class Board
 
   def place_ship(ship, starting_location)
     location_on_board?(calculate_ship_location(ship, starting_location))
+    location_free?(calculate_ship_location(ship, starting_location))
     ships.merge!(ship => (calculate_ship_location(ship, starting_location)))
+  end
+
+  def location_on_board?(placement_location)
+    placement_location.each do |coord|
+      fail 'Location not on board' if coord[0] > 'J' || coord[1..-1].to_i > 10 || coord[1..-1].to_i < 1
+    end
+  end
+
+  def location_free?(placement_location)
+    raise "Ships cannot overlap." unless ships.values.flatten&placement_location == []
+  end
+
+  def calculate_ship_location(ship, starting_location)
+    placement_array = [starting_location]
+    (ship.size - 1).times do
+      placement_array << get_next_coord(ship.direction, placement_array.last)
+    end
+    placement_array
+  end
+
+  def get_next_coord(direction,coord)
+    location_array = coord.scan(/\d+|\D+/)
+    letter = location_array[0]
+    number = location_array[1].to_i
+    direction == :H ? number += 1 : letter = letter.next
+    "#{letter}#{number}"
   end
 
   def fire(position)
@@ -48,25 +75,4 @@ class Board
     return "You've sunk my battleship!"
   end
 
-  def calculate_ship_location(ship, starting_location)
-    placement_array = [starting_location]
-    (ship.size - 1).times do
-      placement_array << get_next_coord(ship.direction, placement_array.last)
-    end
-    placement_array
-  end
-
-  def get_next_coord(direction,coord)
-    location_array = coord.scan(/\d+|\D+/)
-    letter = location_array[0]
-    number = location_array[1].to_i
-    direction == :H ? number += 1 : letter = letter.next
-    "#{letter}#{number}"
-  end
-
-  def location_on_board?(placement_location)
-    placement_location.each do |coord|
-      fail 'Location not on board' if coord[0] > 'J' || coord[1..-1].to_i > 10 || coord[1..-1].to_i < 1
-    end
-  end
 end

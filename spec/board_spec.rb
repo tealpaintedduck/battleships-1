@@ -14,6 +14,11 @@ describe Board do
       expect(subject).to respond_to(:place_ship).with(2).argument
     end
 
+    it "doesn't let you place ship on top of other ship" do
+      subject.place_ship(horizontal_ship,"A1")
+      expect{subject.place_ship(small_ship,"A1")}.to raise_error "Ships cannot overlap."
+    end
+
     xit 'doesn\'t let you place off board' do
     expect { subject.place_ship(horizontal_ship, 'Z23') }.to raise_error "Invalid placement - Not on board"
     end
