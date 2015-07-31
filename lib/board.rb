@@ -9,9 +9,13 @@ class Board
   end
 
   def place_ship(ship, starting_location)
+    location_okay?(ship, starting_location)
+    ships.merge!(ship => (calculate_ship_location(ship, starting_location)))
+  end
+
+  def location_okay?(ship, starting_location)
     location_on_board?(calculate_ship_location(ship, starting_location))
     location_free?(calculate_ship_location(ship, starting_location))
-    ships.merge!(ship => (calculate_ship_location(ship, starting_location)))
   end
 
   def location_on_board?(placement_location)
@@ -34,8 +38,7 @@ class Board
 
   def get_next_coord(direction,coord)
     location_array = coord.scan(/\d+|\D+/)
-    letter = location_array[0]
-    number = location_array[1].to_i
+    letter, number = location_array[0], location_array[1].to_i
     direction == :H ? number += 1 : letter = letter.next
     "#{letter}#{number}"
   end
