@@ -9,7 +9,6 @@ class Board
   end
 
   def place_ship(ship, starting_location, direction)
-    #ship.set_direction(direction)
     location_okay?(ship, starting_location, direction)
     ships.merge!(ship => (calculate_ship_location(ship, starting_location, direction)))
   end
@@ -21,7 +20,7 @@ class Board
 
   def location_on_board?(placement_location)
     placement_location.each do |coord|
-      fail 'Location not on board' if coord[0] > 'J' || coord[1..-1].to_i > 10 || coord[1..-1].to_i < 1
+      fail 'Location not on board' unless ((1..10).include?(coord[1..-1].to_i) && coord[0] < 'J')
     end
   end
 
