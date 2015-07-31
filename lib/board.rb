@@ -8,14 +8,15 @@ class Board
     @recorded_shots = {}
   end
 
-  def place_ship(ship, starting_location)
-    location_okay?(ship, starting_location)
-    ships.merge!(ship => (calculate_ship_location(ship, starting_location)))
+  def place_ship(ship, starting_location, direction)
+    #ship.set_direction(direction)
+    location_okay?(ship, starting_location, direction)
+    ships.merge!(ship => (calculate_ship_location(ship, starting_location, direction)))
   end
 
-  def location_okay?(ship, starting_location)
-    location_on_board?(calculate_ship_location(ship, starting_location))
-    location_free?(calculate_ship_location(ship, starting_location))
+  def location_okay?(ship, starting_location, direction)
+    location_on_board?(calculate_ship_location(ship, starting_location, direction))
+    location_free?(calculate_ship_location(ship, starting_location, direction))
   end
 
   def location_on_board?(placement_location)
@@ -25,13 +26,13 @@ class Board
   end
 
   def location_free?(placement_location)
-    raise "Ships cannot overlap." unless ships.values.flatten&placement_location == []
+    raise "Ships cannot overlap." unless ships.values.flatten & placement_location == []
   end
 
-  def calculate_ship_location(ship, starting_location)
+  def calculate_ship_location(ship, starting_location, direction)
     placement_array = [starting_location]
     (ship.size - 1).times do
-      placement_array << get_next_coord(ship.direction, placement_array.last)
+      placement_array << get_next_coord(direction, placement_array.last)
     end
     placement_array
   end
@@ -74,8 +75,8 @@ class Board
   end
 
   def ship_sinks(ship)
+    "You've sunk my battleship!"
     ships.delete(ship)
-    return "You've sunk my battleship!"
   end
 
 end

@@ -2,7 +2,7 @@ require 'ship'
 
 describe Ship do
   before(:each) do
-    @ship = Ship.new(:battleship, :H)
+    @ship = Ship.new(:battleship)
   end
 
   it 'generates size based on ship type' do
@@ -13,18 +13,8 @@ describe Ship do
     expect(@ship.size).to be_a Integer
   end
 
-  it 'has a direction' do
-    expect(@ship.direction).to be_truthy
-  end
-
-  describe '#valid_direction?' do
-    it 'fails if direction is not valid' do
-      expect { Ship.new(:battleship, :invalid_direction) }.to raise_error 'Direction must be :H, :V'
-    end
-  end
-
   it 'type must match one of the ship types' do
-    expect { Ship.new('incorrect_type', :H) }.to raise_error 'Incorrect ship type'
+    expect { Ship.new('incorrect_type') }.to raise_error 'Incorrect ship type'
   end
 
   it 'has a method called ship_types' do
